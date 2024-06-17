@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Navbar from './components/Navbar';
+import Form from './components/Form';
+import TransactionList from './components/TransactionList';
+import Chart from './components/Chart';
+import { saveToLocalStorage, getFromLocalStorage } from './utils/localStorage';
+import './styles.css';
 
-function App() {
+const App = () => {
+  const [transactions, setTransactions] = useState(getFromLocalStorage('transactions') || []);
+
+  useEffect(() => {
+    saveToLocalStorage('transactions', transactions);
+  }, [transactions]);
+
+  const addTransaction = (transaction) => {
+    setTransactions([...transactions, transaction]);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+      <Form addTransaction={addTransaction} />
+      <TransactionList transactions={transactions} />
+      <Chart transactions={transactions} />
     </div>
   );
-}
+};
 
 export default App;
