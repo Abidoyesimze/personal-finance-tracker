@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Form from './components/Form';
-import TransactionList from './components/TransactionList';
-import Chart from './components/Chart';
-import { saveToLocalStorage, getFromLocalStorage } from './utils/localStorage';
+import Dashboard from './components/Dashboard';
+import Chart from './components/Chart'; // Assuming you have a custom Chart component
+import { saveToLocalStorage, getFromLocalStorage } from './components/localStorage';
 import './styles.css';
 
 const App = () => {
@@ -20,9 +20,9 @@ const App = () => {
   return (
     <div className="App">
       <Navbar />
-      <Form addTransaction={addTransaction} />
-      <TransactionList transactions={transactions} />
-      <Chart transactions={transactions} />
+      <Form addTransaction={addTransaction} /> {/* Pass the addTransaction function as a prop */}
+      <Dashboard transactions={transactions} /> {/* Pass the transactions state as a prop */}
+      <Chart transactions={transactions} /> {/* Pass the transactions state as a prop */}
     </div>
   );
 };

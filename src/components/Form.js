@@ -1,31 +1,44 @@
 import React, { useState } from 'react';
 
-
 const Form = ({ addTransaction }) => {
-    const [amount, setAmount] = useState('');
-    const [category, setCategory] = useState('income');
+  const [category, setCategory] = useState('');
+  const [amount, setAmount] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        addTransaction({ amount: parseFloat(amount), category});
-        setAmount();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!category || !amount) return;
+    
+    // Create a new transaction object
+    const newTransaction = {
+      category: category,
+      amount: parseFloat(amount),
     };
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <input
-            type='number'
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="Amount"
-            required
-            />
-            <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                <option value="income">Income</option>
-                <option value="expense">Expense</option>
-                </select>
-                <button type='submit'>Add</button>
-        </form>
-    );
+    // Call the addTransaction function passed as a prop
+    addTransaction(newTransaction);
+
+    // Clear form inputs
+    setCategory('');
+    setAmount('');
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Category"
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+      />
+      <input
+        type="number"
+        placeholder="Amount"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+      />
+      <button type="submit">Add Transaction</button>
+    </form>
+  );
 };
+
 export default Form;
